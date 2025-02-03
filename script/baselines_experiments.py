@@ -53,4 +53,5 @@ if __name__ == '__main__':
             with open(os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME), 'w') as f:
                 config.write(f)
             run()
+    os.system(f'rm -rf {os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME)}')
     shutdown()
