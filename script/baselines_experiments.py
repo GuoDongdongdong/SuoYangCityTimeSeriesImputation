@@ -49,7 +49,7 @@ if __name__ == '__main__':
     os.makedirs(TEMP_FILE_DIR, exist_ok=True)
     for dataset_name, targets_name in DATASETS:
         config['CommonArgs']['dataset_file_name'] = f'str:{dataset_name}'
-        config['CommonArgs']['targets'] = f'str:{targets_name}'
+        config['CommonArgs']['targets'] = f'list:{targets_name}'
         for model_name in MODEL_LIST:
             config['CommonArgs']['model'] = f'str:{model_name}'
             if model_name == 'Interpolate':
