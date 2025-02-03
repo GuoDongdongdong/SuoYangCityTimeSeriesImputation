@@ -16,7 +16,7 @@ class EarlyStopping:
         self.counter = 0
         self.best_score = None
         self.stop = False
-        self.val_loss_min = np.Inf
+        self.val_loss_min = np.inf
 
     def update(self, val_loss):
         score = -val_loss

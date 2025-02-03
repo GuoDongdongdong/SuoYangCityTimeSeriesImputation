@@ -13,7 +13,7 @@ TEMP_FILE_DIR = './temp'
 
 MODEL_LIST = [
     'Interpolate',
-    'USGAN'
+    'USGAN',
     'CSDI',
     'BRITS',
     'GRUD',
@@ -37,7 +37,7 @@ def shutdown():
     os.system("/usr/bin/shutdown")
 
 if __name__ == '__main__':
-    config_file_path = os.path.join(CONFIG_FILE_NAME, CONFIG_FILE_DIR)
+    config_file_path = os.path.join(CONFIG_FILE_DIR, CONFIG_FILE_NAME)
     config = configparser.ConfigParser()
     config.read(config_file_path)
     os.makedirs(TEMP_FILE_DIR, exist_ok=True)

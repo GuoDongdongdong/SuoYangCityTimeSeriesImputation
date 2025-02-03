@@ -15,7 +15,7 @@ from models import Interpolate
 from models import SAITS, ImputeFormer, TIEGAN
 from models import BRITS, GRUD, MRNN
 from models import TimesNet
-from models import CSDI, GPVAE, SSSD
+from models import CSDI, GPVAE
 from models import USGAN
 
 MODELS = {
@@ -29,7 +29,6 @@ MODELS = {
     'USGAN'        : USGAN,
     'CSDI'         : CSDI,
     'GPVAE'        : GPVAE,
-    'SSSD'         : SSSD,
     'TIEGAN'       : TIEGAN,
 }
 
@@ -187,11 +186,11 @@ class Experiment:
         return validation_loss
 
     def test(self) -> None:
+        dataset, dataloader = data_provider(self.exp_args, 'test')
         # statistical model need .
         if self.exp_args['model'] in STATSTICAL_MODEL_LIST:
-            self.model.test()
+            self.model.test(dataset)
             return
-        dataset, dataloader = data_provider(self.exp_args, 'test')
         with torch.no_grad():
             self.model.get_inner_model().eval()
             output_list = []
