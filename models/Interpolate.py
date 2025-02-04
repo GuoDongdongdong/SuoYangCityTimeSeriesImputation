@@ -38,7 +38,7 @@ class Model(BaseImputeModel):
             interpolate_func = interp1d(x, data_without_nan, kind=self.kind, axis=0, fill_value='extrapolate')
             axis_y = np.linspace(1, L, L)
             result = interpolate_func(axis_y)
-            result = np.nan_to_num(mean)
+            result = np.nan_to_num(result, mean)
             imputed_data[:, dim] = result
         imputed_data = np.expand_dims(imputed_data, axis=0)
         test_dataset.save_result(imputed_data)
