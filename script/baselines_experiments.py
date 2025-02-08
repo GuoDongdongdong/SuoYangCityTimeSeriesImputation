@@ -32,11 +32,11 @@ INTERPOLATE = [
     'next',
 ]
 DATASETS = [
-    ('humidity_20per_block_missing.csv', 'depth05_missing'),
-    ('temperature_20per_block_missing.csv', 'temperature_missing'),
-    ('wind_20per_block_missing.csv', 'windSpeed3s_missing'),
-    ('water_20per_block_missing.csv', 'water1_missing'),
-    ('salt_20per_block_missing.csv', 'salt1_missing'),
+    ('humidity_30per_block_missing.csv', 'humidity_missing'),
+    ('temperature_30per_block_missing.csv', 'temperature_missing'),
+    ('wind_30per_block_missing.csv', 'windspeed_missing'),
+    ('water_30per_block_missing.csv', 'water_missing'),
+    ('salt_30per_block_missing.csv', 'salt_missing'),
 ]
 def run():
     args = ['-config_file_dir',
