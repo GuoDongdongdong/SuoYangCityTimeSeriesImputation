@@ -13,23 +13,16 @@ TEMP_FILE_DIR = './temp'
 
 MODEL_LIST = [
     'Interpolate',
-    'TIEGAN',
-    'SAITS',
-    'CSDI',
-    'BRITS',
-    'GRUD',
-    'USGAN',
+    # 'TIEGAN',
+    # 'SAITS',
+    # 'CSDI',
+    # 'BRITS',
+    # 'GRUD',
+    # 'USGAN',
 ]
 INTERPOLATE = [
+    'median',
     'previous', # LOCF
-    'cubic',
-    'linear',
-    'nearest',
-    'nearest-up',
-    'zero',
-    'slinear',
-    'quadratic',
-    'next',
 ]
 DATASETS = [
     ('humidity_30per_block_missing.csv', 'humidity_missing'),

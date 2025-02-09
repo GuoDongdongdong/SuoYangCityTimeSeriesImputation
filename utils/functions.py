@@ -358,7 +358,8 @@ def locf_torch(X:torch.Tensor, first_step_imputation:str="backward") -> torch.Te
 
 def calc_smape(predictions: Union[np.ndarray, torch.Tensor], targets: Union[np.ndarray, torch.Tensor], masks: Optional[Union[np.ndarray, torch.Tensor]]=None) -> Union[float, torch.Tensor]:
     lib = _check_inputs(predictions, targets, masks)
-    denominator = (lib.abs(predictions) + lib.abs(targets)) / 2
+    epsilon = 1e-10
+    denominator = (lib.abs(predictions) + lib.abs(targets)) / 2 + epsilon
     diff = lib.abs(predictions - targets) / denominator
     if masks is not None:
         diff = diff * masks

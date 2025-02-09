@@ -25,6 +25,9 @@ class Model(BaseImputeModel):
         The interpolation function can not fill the nan at the beginning of the time series data, so we use the time series mean to fill them.
     '''
     def test(self, test_dataset:SuoYangCityDataset) -> None:
+        if self.kind == 'median':
+            self.median(test_dataset)
+            return
         imputed_data = test_dataset.unnorm_observed_data.copy()
         imputed_data[test_dataset.ground_truth_mask == 0] = np.nan
         L, D = imputed_data.shape
@@ -40,5 +43,17 @@ class Model(BaseImputeModel):
             result = interpolate_func(axis_y)
             result = np.nan_to_num(result, mean)
             imputed_data[:, dim] = result
+        imputed_data = np.expand_dims(imputed_data, axis=0)
+        test_dataset.save_result(imputed_data)
+
+    def median(self, test_dataset:SuoYangCityDataset) -> None:
+        imputed_data = test_dataset.unnorm_observed_data.copy()
+        imputed_data[test_dataset.ground_truth_mask == 0] = np.nan
+        L, D = imputed_data.shape
+        for dim in range(D):
+            data = imputed_data[:, dim]
+            median_value = np.nanmedian(data)
+            data = np.where(np.isnan(data), median_value, data)
+            imputed_data[:, dim] = data
         imputed_data = np.expand_dims(imputed_data, axis=0)
         test_dataset.save_result(imputed_data)
