@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 
 from utils.ExperimentArgs import ExperimentArgs
 from utils.logger import logger
-from utils.functions import get_ground_truth_mask, get_deltas, locf, calc_mae, calc_mse, calc_rmse
+from utils.functions import get_ground_truth_mask, get_deltas, locf, calc_mae, calc_mse, calc_rmse, calc_smape
 from utils.config import DEFAULT_DATE_COLUMN_NAME, DEFAULT_RESULT_FILE_NAME, NAN_SYMBOL
 from utils.TimeFeature import time_features
 
@@ -120,10 +120,10 @@ class SuoYangCityDataset(Dataset):
         target_mask = self.loss_mask.copy()
         target_mask = target_mask[: imputed_data_length]
         mae = calc_mae(imputed_data, observed_data, target_mask)
-        mse = calc_mse(imputed_data, observed_data, target_mask)
         rmse = calc_rmse(imputed_data, observed_data, target_mask)
+        smape = calc_smape(imputed_data, observed_data, target_mask)
         logger.info(f"mae: {mae}")
-        logger.info(f"mse : {mse}")
+        logger.info(f"mse : {smape}")
         logger.info(f"rmse : {rmse}")
         df = pd.DataFrame()
         padding_length = self.test_dataset_legth - imputed_data_length

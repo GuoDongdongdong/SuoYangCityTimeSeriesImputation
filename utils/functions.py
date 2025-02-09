@@ -354,3 +354,13 @@ def locf_torch(X:torch.Tensor, first_step_imputation:str="backward") -> torch.Te
                 X_imputed = torch.nan_to_num(X_imputed, nan=0)
 
     return X_imputed
+
+
+def calc_smape(predictions: Union[np.ndarray, torch.Tensor], targets: Union[np.ndarray, torch.Tensor], masks: Optional[Union[np.ndarray, torch.Tensor]]=None) -> Union[float, torch.Tensor]:
+    lib = _check_inputs(predictions, targets, masks)
+    denominator = (lib.abs(predictions) + lib.abs(targets)) / 2
+    diff = lib.abs(predictions - targets) / denominator
+    if masks != None:
+        diff = diff * masks
+        return 100 * np.sum(diff) / np.sum(masks)
+    return 100 * np.mean(diff)
