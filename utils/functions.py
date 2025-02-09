@@ -360,7 +360,7 @@ def calc_smape(predictions: Union[np.ndarray, torch.Tensor], targets: Union[np.n
     lib = _check_inputs(predictions, targets, masks)
     denominator = (lib.abs(predictions) + lib.abs(targets)) / 2
     diff = lib.abs(predictions - targets) / denominator
-    if masks != None:
+    if masks is not None:
         diff = diff * masks
         return 100 * np.sum(diff) / np.sum(masks)
     return 100 * np.mean(diff)
