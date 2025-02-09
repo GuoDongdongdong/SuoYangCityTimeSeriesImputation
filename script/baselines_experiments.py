@@ -34,9 +34,8 @@ INTERPOLATE = [
 DATASETS = [
     ('humidity_30per_block_missing.csv', 'humidity_missing'),
     ('temperature_30per_block_missing.csv', 'temperature_missing'),
-    ('wind_30per_block_missing.csv', 'windspeed_missing'),
+    ('windspeed_30per_block_missing.csv', 'windspeed_missing'),
     ('water_30per_block_missing.csv', 'water_missing'),
-    ('salt_30per_block_missing.csv', 'salt_missing'),
 ]
 def run():
     args = ['-config_file_dir',
