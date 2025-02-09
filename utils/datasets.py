@@ -123,7 +123,7 @@ class SuoYangCityDataset(Dataset):
         rmse = calc_rmse(imputed_data, observed_data, target_mask)
         smape = calc_smape(imputed_data, observed_data, target_mask)
         logger.info(f"mae: {mae}")
-        logger.info(f"mse : {smape}")
+        logger.info(f"smape : {smape}")
         logger.info(f"rmse : {rmse}")
         df = pd.DataFrame()
         padding_length = self.test_dataset_legth - imputed_data_length
