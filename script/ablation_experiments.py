@@ -49,29 +49,29 @@ def common_args_define(config:ConfigParser):
     config['CommonArgs']['patience'] = 'int:5'
     config['CommonArgs']['num_workers'] = 'int:8'
 
-def column2(config:ConfigParser):
-    #table 3.3 second column model
+def row2(config:ConfigParser):
+    #table 3.3 row 2
     common_args_define(config)
     config['CommonArgs']['artifical_missing_type'] = 'str:mcar'
 
 
-def column3(config:ConfigParser):
-    #table 3.3 third column model
+def row3(config:ConfigParser):
+    #table 3.3 row 3
     common_args_define(config)
-    config['CommonArgs']['artifical_missing_ratio'] = 'float:1e-10'
+    config['TIEGAN']['ort_weight'] = 'float:0.0'
 
-def column4(config:ConfigParser):
-    #table 3.3 fourth column model
+def row4(config:ConfigParser):
+    #table 3.3 row 4
     common_args_define(config)
     config['CommonArgs']['model'] = 'str:TIEGAN_wo_TIE'
 
-def column5(config:ConfigParser):
-    #table 3.3 fifth column model
+def row5(config:ConfigParser):
+    #table 3.3 row 5
     common_args_define(config)
     config['TIEGAN']['diagonal_attention_mask'] = 'bool:False'
 
-def column6(config:ConfigParser):
-    #table 3.3 sixth column model
+def row6(config:ConfigParser):
+    #table 3.3 row 6
     common_args_define(config)
     config['CommonArgs']['model'] = 'str:TIEGAN_wo_GAN'
 
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read(config_file_path)
     os.makedirs(TEMP_FILE_DIR, exist_ok=True)
-    exp_list = [column2, column3, column4, column5, column6]
+    exp_list = [row2, row3, row4, row5, row6]
     for dataset_name, targets_name in DATASETS:
         for exp in exp_list:
             exp(config)
