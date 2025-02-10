@@ -1,0 +1,82 @@
+'''
+    Chapter 3 Ablation Experiment 1
+'''
+
+import os
+import configparser
+import subprocess
+from configparser import ConfigParser
+
+CONFIG_FILE_NAME = 'config.ini'
+CONFIG_FILE_DIR  = '.'
+TEMP_CONFIG_FILE_NAME = 'temp_config.ini'
+TEMP_FILE_DIR = './temp'
+
+def run():
+    args = ['-config_file_dir',
+            TEMP_FILE_DIR, 
+            '-config_file_name', 
+            TEMP_CONFIG_FILE_NAME,
+            ]
+    result = subprocess.run(['python', 'run.py'] + args)
+
+def shutdown():
+    os.system("/usr/bin/shutdown")
+
+def common_args_define(config:ConfigParser):
+    config['CommonArgs']['dataset_file_dir'] = 'str:dataset'
+    config['CommonArgs']['dataset_file_name'] = 'str:humidity_30per_block_missing.csv'
+    config['CommonArgs']['model'] = 'str:TIEGAN'
+    config['CommonArgs']['train_test'] = 'bool:True'
+    config['CommonArgs']['targets'] = 'list:humidity_missing'
+    config['CommonArgs']['date_frequence'] = 'str:s'
+    config['CommonArgs']['lookback_length'] = 'int:48'
+    config['CommonArgs']['train_ratio'] = 'float:0.7'
+    config['CommonArgs']['vali_ratio'] = 'float:0.1'
+    config['CommonArgs']['artifical_missing_ratio'] = 'float:0.1'
+    config['CommonArgs']['artifical_missing_type'] = 'str:block_missing'
+    config['CommonArgs']['random_seed'] = 'int:202221543'
+    config['CommonArgs']['batch_size'] = 'int:32'
+    config['CommonArgs']['lr'] = 'float:1e-3'
+    config['CommonArgs']['epochs'] = 'int:300'
+    config['CommonArgs']['patience'] = 'int:5'
+    config['CommonArgs']['num_workers'] = 'int:8'
+
+def column2(config:ConfigParser):
+    #table 3.3 second column model
+    common_args_define(config)
+    config['CommonArgs']['artifical_missing_type'] = 'str:mcar'
+
+
+def column3(config:ConfigParser):
+    #table 3.3 third column model
+    common_args_define(config)
+    config['CommonArgs']['artifical_missing_ratio'] = 'float:0.0'
+
+def column4(config:ConfigParser):
+    #table 3.3 fourth column model
+    common_args_define(config)
+    config['CommonArgs']['model'] = 'str:TIEGAN_wo_TIE'
+
+def column5(config:ConfigParser):
+    #table 3.3 fifth column model
+    common_args_define(config)
+    config['TIEGAN']['diagonal_attention_mask'] = 'bool:False'
+
+def column6(config:ConfigParser):
+    #table 3.3 sixth column model
+    common_args_define(config)
+    config['CommonArgs']['model'] = 'str:TIEGAN_wo_GAN'
+
+if __name__ == '__main__':
+    config_file_path = os.path.join(CONFIG_FILE_DIR, CONFIG_FILE_NAME)
+    config = configparser.ConfigParser()
+    config.read(config_file_path)
+    os.makedirs(TEMP_FILE_DIR, exist_ok=True)
+    exp_list = [column2, column3, column4, column5, column6]
+    for exp in exp_list:
+        exp(config)
+        with open(os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME), 'w') as f:
+            config.write(f)
+        run()
+    shutdown()

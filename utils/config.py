@@ -11,7 +11,7 @@ DEFAULT_CONFIG_FILE_NAME = 'config.ini'
 DEFAULT_CHECKPOINTS_NAME = 'checkpoints.pth'
 DEFAULT_RESULT_FILE_NAME = 'result.csv'
 STATSTICAL_MODEL_LIST    = ['Interpolate']
-GAN_MODEL_LIST           = ['USGAN', 'TIEGAN']
+GAN_MODEL_LIST           = ['USGAN', 'TIEGAN', 'TIEGAN_wo_TIE']
 NAN_SYMBOL               = 'NaN'
 
 # Logger configuration

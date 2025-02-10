@@ -1,4 +1,7 @@
-# Time Information Enhanment GAN for Time Series Imputation.
+'''
+TIEGAN without time information enhancement block.
+use for chapter 3 experiment 3 table 3.3 third column.
+'''
 
 from typing import Callable
 from abc import abstractmethod
@@ -410,17 +413,17 @@ class SaitsEmbedding(nn.Module):
         self.dropout_rate = dropout
 
         self.embedding_layer = nn.Linear(d_in, d_out)
-        self.temporal_enhance_block = TemporalEnhanceBlock(n_features, temporal_dim, date_frequence)
+        #self.temporal_enhance_block = TemporalEnhanceBlock(n_features, temporal_dim, date_frequence)
         self.position_enc = (
             PositionalEncoding(d_out, n_positions=n_max_steps) if with_pos else None
         )
         self.dropout = nn.Dropout(p=dropout) if dropout > 0 else None
 
     def forward(self, X, observed_mask, date, deltas):
-        temporal_information = self.temporal_enhance_block(date, deltas)
+        #temporal_information = self.temporal_enhance_block(date, deltas)
         X = torch.cat([X, observed_mask], dim=2)
         X_embedding = self.embedding_layer(X)
-        X_embedding = torch.cat([temporal_information, X_embedding], dim=2)
+        #X_embedding = torch.cat([temporal_information, X_embedding], dim=2)
         if self.with_pos:
             X_embedding = self.position_enc(X_embedding)
         if self.dropout_rate > 0:

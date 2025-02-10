@@ -18,6 +18,8 @@ from models import TimesNet
 from models import CSDI, GPVAE
 from models import USGAN
 
+from models import TIEGAN_wo_TIE, TIEGAN_wo_GAN
+
 MODELS = {
     'Interpolate'  : Interpolate,
     'SAITS'        : SAITS,
@@ -30,6 +32,8 @@ MODELS = {
     'CSDI'         : CSDI,
     'GPVAE'        : GPVAE,
     'TIEGAN'       : TIEGAN,
+    'TIEGAN_wo_TIE' : TIEGAN_wo_TIE,
+    'TIEGAN_wo_GAN' : TIEGAN_wo_GAN,
 }
 
 

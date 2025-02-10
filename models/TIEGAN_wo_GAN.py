@@ -129,28 +129,28 @@ class _TIEGAN(nn.Module):
             date_frequence,
             temporal_dim,
         )
-        self.discriminator = Discriminator(
-            n_features,
-            rnn_hidden_size,
-            hint_rate,
-            discrimintor_dropout_rate,
-        )
+        # self.discriminator = Discriminator(
+        #     n_features,
+        #     rnn_hidden_size,
+        #     hint_rate,
+        #     discrimintor_dropout_rate,
+        # )
         
 
     def forward(self, inputs:dict, training_object:str='generator', training:bool=True):
-        assert training_object in ['generator', 'discriminator'], 'training_object should be generator or discriminator!'
+        # assert training_object in ['generator', 'discriminator'], 'training_object should be generator or discriminator!'
         res = self.generator(inputs, training=training)
-        imputed_data = res['imputed_data']
-        observed_mask = inputs['observed_mask']
-        if training_object == "discriminator":
-            discrimination = self.discriminator(
-                imputed_data.detach(), observed_mask
-            )
-            l_D = F.binary_cross_entropy_with_logits(
-                discrimination, observed_mask
-            )
-            discrimination_loss = l_D
-            res['loss'] = discrimination_loss
+        # imputed_data = res['imputed_data']
+        # observed_mask = inputs['observed_mask']
+        # if training_object == "discriminator":
+        #     discrimination = self.discriminator(
+        #         imputed_data.detach(), observed_mask
+        #     )
+        #     l_D = F.binary_cross_entropy_with_logits(
+        #         discrimination, observed_mask
+        #     )
+        #     discrimination_loss = l_D
+        #     res['loss'] = discrimination_loss
         return res
     
 
