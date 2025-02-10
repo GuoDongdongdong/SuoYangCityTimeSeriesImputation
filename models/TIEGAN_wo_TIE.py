@@ -912,6 +912,7 @@ class BackboneSAITS(nn.Module):
 
         # concatenate the feature vector and missing mask, hence double the number of features
         actual_n_features = n_features * 2
+        temporal_dim = 0
 
         # for the 1st block
         self.embedding_1 = SaitsEmbedding(

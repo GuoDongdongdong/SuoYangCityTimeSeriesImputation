@@ -51,7 +51,7 @@ def column2(config:ConfigParser):
 def column3(config:ConfigParser):
     #table 3.3 third column model
     common_args_define(config)
-    config['CommonArgs']['artifical_missing_ratio'] = 'float:0.0'
+    config['CommonArgs']['artifical_missing_ratio'] = 'float:1e-10'
 
 def column4(config:ConfigParser):
     #table 3.3 fourth column model
@@ -73,7 +73,8 @@ if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read(config_file_path)
     os.makedirs(TEMP_FILE_DIR, exist_ok=True)
-    exp_list = [column2, column3, column4, column5, column6]
+    # exp_list = [column2, column3, column4, column5, column6]
+    exp_list = [column4]
     for exp in exp_list:
         exp(config)
         with open(os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME), 'w') as f:
