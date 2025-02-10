@@ -12,6 +12,13 @@ CONFIG_FILE_DIR  = '.'
 TEMP_CONFIG_FILE_NAME = 'temp_config.ini'
 TEMP_FILE_DIR = './temp'
 
+DATASETS = [
+    ('humidity_30per_block_missing.csv', 'humidity_missing'),
+    ('temperature_30per_block_missing.csv', 'temperature_missing'),
+    ('windspeed_30per_block_missing.csv', 'windspeed_missing'),
+    ('water_30per_block_missing.csv', 'water_missing'),
+]
+
 def run():
     args = ['-config_file_dir',
             TEMP_FILE_DIR, 
@@ -73,11 +80,13 @@ if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read(config_file_path)
     os.makedirs(TEMP_FILE_DIR, exist_ok=True)
-    # exp_list = [column2, column3, column4, column5, column6]
-    exp_list = [column4]
-    for exp in exp_list:
-        exp(config)
-        with open(os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME), 'w') as f:
-            config.write(f)
-        run()
+    exp_list = [column2, column3, column4, column5, column6]
+    for dataset_name, targets_name in DATASETS:
+        for exp in exp_list:
+            exp(config)
+            config['CommonArgs']['dataset_file_name'] = f'str:{dataset_name}'
+            config['CommonArgs']['targets'] = f'list:{targets_name}'
+            with open(os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME), 'w') as f:
+                config.write(f)
+            run()
     shutdown()
