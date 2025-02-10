@@ -1,6 +1,6 @@
 '''
 TIEGAN without time information enhancement block.
-use for chapter 3 experiment 3 table 3.3 third column.
+use for chapter 3 experiment 3 table 3.3 fourth column.
 '''
 
 from typing import Callable

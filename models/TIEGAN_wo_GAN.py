@@ -1,5 +1,7 @@
-# Time Information Enhanment GAN for Time Series Imputation.
-
+'''
+TIEGAN without GAN.
+use for chapter 3 experiment 3 table 3.3 six row.
+'''
 from typing import Callable
 from abc import abstractmethod
 
