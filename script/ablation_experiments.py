@@ -48,30 +48,42 @@ def common_args_define(config:ConfigParser):
     config['CommonArgs']['epochs'] = 'int:300'
     config['CommonArgs']['patience'] = 'int:5'
     config['CommonArgs']['num_workers'] = 'int:8'
+    config['TIEGAN']['ort_weight'] = 'float:1.0'
+    config['TIEGAN']['diagonal_attention_mask'] = 'bool:True'
 
 def row2(config:ConfigParser):
-    #table 3.3 row 2
+    '''
+        table 3.3 row 2
+    '''
     common_args_define(config)
     config['CommonArgs']['artifical_missing_type'] = 'str:mcar'
 
 
 def row3(config:ConfigParser):
-    #table 3.3 row 3
+    '''
+        table 3.3 row 3
+    '''
     common_args_define(config)
     config['TIEGAN']['ort_weight'] = 'float:0.0'
 
 def row4(config:ConfigParser):
-    #table 3.3 row 4
+    '''
+        table 3.3 row 4
+    '''
     common_args_define(config)
     config['CommonArgs']['model'] = 'str:TIEGAN_wo_TIE'
 
 def row5(config:ConfigParser):
-    #table 3.3 row 5
+    '''
+        table 3.3 row 5
+    '''
     common_args_define(config)
     config['TIEGAN']['diagonal_attention_mask'] = 'bool:False'
 
 def row6(config:ConfigParser):
-    #table 3.3 row 6
+    '''
+        table 3.3 row 6
+    '''
     common_args_define(config)
     config['CommonArgs']['model'] = 'str:TIEGAN_wo_GAN'
 
@@ -84,6 +96,8 @@ if __name__ == '__main__':
     for dataset_name, targets_name in DATASETS:
         for exp in exp_list:
             exp(config)
+            comment = exp.__doc__
+            config['CommonArgs']['experiment_description'] = f'str:{comment}'
             config['CommonArgs']['dataset_file_name'] = f'str:{dataset_name}'
             config['CommonArgs']['targets'] = f'list:{targets_name}'
             with open(os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME), 'w') as f:
