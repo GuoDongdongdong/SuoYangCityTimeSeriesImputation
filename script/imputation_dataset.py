@@ -1,5 +1,6 @@
 '''
-    Chapter 3 Ablation Experiment 3
+    Chapter 3 Ablation Experiment 2
+    impute all nan in four datasets, and use MPformer forecast them.
 '''
 
 import os
@@ -11,12 +12,23 @@ CONFIG_FILE_NAME = 'config.ini'
 CONFIG_FILE_DIR  = '.'
 TEMP_CONFIG_FILE_NAME = 'temp_config.ini'
 TEMP_FILE_DIR = './temp'
+IMPUTE_DIR = 'chapter3_experiment1_log'
+CHECKPOINTS_fILE_NAME = 'checkpoints.pth'
 
 DATASETS = [
     ('humidity_30per_block_missing.csv', 'humidity_missing'),
     ('temperature_30per_block_missing.csv', 'temperature_missing'),
     ('windspeed_30per_block_missing.csv', 'windspeed_missing'),
     ('water_30per_block_missing.csv', 'water_missing'),
+]
+
+MODEL_LIST = [
+    'BRITS',
+    'CSDI',
+    'GRUD',
+    'SAITS',
+    'TIEGAN',
+    'USGAN'
 ]
 
 def run():
@@ -32,14 +44,14 @@ def shutdown():
 
 def common_args_define(config:ConfigParser):
     config['CommonArgs']['dataset_file_dir'] = 'str:dataset'
-    config['CommonArgs']['dataset_file_name'] = 'str:humidity_30per_block_missing.csv'
-    config['CommonArgs']['model'] = 'str:TIEGAN'
-    config['CommonArgs']['train_test'] = 'bool:True'
-    config['CommonArgs']['targets'] = 'list:humidity_missing'
+    config['CommonArgs']['dataset_file_name'] = 'str:TODO'
+    config['CommonArgs']['model'] = 'str:TODO'
+    config['CommonArgs']['train_test'] = 'bool:False'
+    config['CommonArgs']['targets'] = 'list:TODO'
     config['CommonArgs']['date_frequence'] = 'str:s'
     config['CommonArgs']['lookback_length'] = 'int:48'
-    config['CommonArgs']['train_ratio'] = 'float:0.7'
-    config['CommonArgs']['vali_ratio'] = 'float:0.1'
+    config['CommonArgs']['train_ratio'] = 'float:0.0'
+    config['CommonArgs']['vali_ratio'] = 'float:0.0'
     config['CommonArgs']['artifical_missing_ratio'] = 'float:0.1'
     config['CommonArgs']['artifical_missing_type'] = 'str:block_missing'
     config['CommonArgs']['random_seed'] = 'int:202221543'
@@ -48,58 +60,22 @@ def common_args_define(config:ConfigParser):
     config['CommonArgs']['epochs'] = 'int:300'
     config['CommonArgs']['patience'] = 'int:5'
     config['CommonArgs']['num_workers'] = 'int:8'
-    config['TIEGAN']['ort_weight'] = 'float:1.0'
-    config['TIEGAN']['diagonal_attention_mask'] = 'bool:True'
-
-def row2(config:ConfigParser):
-    '''
-        table 3.3 row 2
-    '''
-    common_args_define(config)
-    config['CommonArgs']['artifical_missing_type'] = 'str:mcar'
-
-
-def row3(config:ConfigParser):
-    '''
-        table 3.3 row 3
-    '''
-    common_args_define(config)
-    config['TIEGAN']['ort_weight'] = 'float:0.0'
-
-def row4(config:ConfigParser):
-    '''
-        table 3.3 row 4
-    '''
-    common_args_define(config)
-    config['CommonArgs']['model'] = 'str:TIEGAN_wo_TIE'
-
-def row5(config:ConfigParser):
-    '''
-        table 3.3 row 5
-    '''
-    common_args_define(config)
-    config['TIEGAN']['diagonal_attention_mask'] = 'bool:False'
-
-def row6(config:ConfigParser):
-    '''
-        table 3.3 row 6
-    '''
-    common_args_define(config)
-    config['CommonArgs']['model'] = 'str:TIEGAN_wo_GAN'
 
 if __name__ == '__main__':
     config_file_path = os.path.join(CONFIG_FILE_DIR, CONFIG_FILE_NAME)
     config = configparser.ConfigParser()
     config.read(config_file_path)
     os.makedirs(TEMP_FILE_DIR, exist_ok=True)
-    exp_list = [row2, row3, row4, row5, row6]
-    for dataset_name, targets_name in DATASETS:
-        for exp in exp_list:
-            exp(config)
-            comment = exp.__doc__
-            config['CommonArgs']['experiment_description'] = f'str:{comment}'
-            config['CommonArgs']['dataset_file_name'] = f'str:{dataset_name}'
-            config['CommonArgs']['targets'] = f'list:{targets_name}'
+    for model_name in os.listdir(IMPUTE_DIR):
+        if model_name not in MODEL_LIST:
+            continue
+        model_path = os.path.join(IMPUTE_DIR, model_name)
+        for i, date in enumerate(os.listdir(model_path)):
+            model_args_path = os.path.join(model_path, CHECKPOINTS_fILE_NAME)
+            config['CommonArgs']['model_save_path'] = f'str:{model_args_path}'
+            config['CommonArgs']['model'] = f'str:{model_name}'
+            config['CommonArgs']['dataset_file_name'] = f'str:{DATASETS[i][0]}'
+            config['CommonArgs']['targets'] = f'list:{DATASETS[i][1]}'
             with open(os.path.join(TEMP_FILE_DIR, TEMP_CONFIG_FILE_NAME), 'w') as f:
                 config.write(f)
             run()

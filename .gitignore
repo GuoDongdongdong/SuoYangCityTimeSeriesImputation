@@ -3,5 +3,6 @@
 /ori_dataset
 /log
 /temp
+/chapter3_experiment1_log
 **/__pycache__
 temp.py
