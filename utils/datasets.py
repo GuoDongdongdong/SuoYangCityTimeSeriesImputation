@@ -54,7 +54,10 @@ class SuoYangCityDataset(Dataset):
         train_dataset = data[self.board_l[FLAG_DICT['train']] : self.board_r[FLAG_DICT['train']]]
         self.scaler = StandardScaler()
         self.scaler.fit(train_dataset)
-        self.unnorm_observed_data:np.ndarray = data[self.board_l[FLAG_DICT[flag]] : self.board_r[FLAG_DICT[flag]]].values
+        if self.exp_args['impute_all_data']:
+            self.unnorm_observed_data:np.ndarray = data.values
+        else:
+            self.unnorm_observed_data:np.ndarray = data[self.board_l[FLAG_DICT[flag]] : self.board_r[FLAG_DICT[flag]]].values
         self.observed_data = self.scaler.transform(self.unnorm_observed_data)
         self.observed_mask = 1 - np.isnan(self.observed_data)
         self.ground_truth_mask = get_ground_truth_mask(self.observed_data, self.exp_args['artifical_missing_ratio'], self.exp_args['artifical_missing_type'])

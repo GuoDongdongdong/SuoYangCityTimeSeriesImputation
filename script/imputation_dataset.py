@@ -47,11 +47,12 @@ def common_args_define(config:ConfigParser):
     config['CommonArgs']['dataset_file_name'] = 'str:TODO'
     config['CommonArgs']['model'] = 'str:TODO'
     config['CommonArgs']['train_test'] = 'bool:False'
+    config['CommonArgs']['impute_all_data'] = 'bool:True'
     config['CommonArgs']['targets'] = 'list:TODO'
     config['CommonArgs']['date_frequence'] = 'str:s'
     config['CommonArgs']['lookback_length'] = 'int:48'
-    config['CommonArgs']['train_ratio'] = 'float:0.0'
-    config['CommonArgs']['vali_ratio'] = 'float:0.0'
+    config['CommonArgs']['train_ratio'] = 'float:0.7'
+    config['CommonArgs']['vali_ratio'] = 'float:0.2'
     config['CommonArgs']['artifical_missing_ratio'] = 'float:0.1'
     config['CommonArgs']['artifical_missing_type'] = 'str:block_missing'
     config['CommonArgs']['random_seed'] = 'int:202221543'
@@ -71,7 +72,7 @@ if __name__ == '__main__':
             continue
         model_path = os.path.join(IMPUTE_DIR, model_name)
         for i, date in enumerate(os.listdir(model_path)):
-            model_args_path = os.path.join(model_path, CHECKPOINTS_fILE_NAME)
+            model_args_path = os.path.join(os.path.join(model_path, date), CHECKPOINTS_fILE_NAME)
             common_args_define(config)
             config['CommonArgs']['model_save_path'] = f'str:{model_args_path}'
             config['CommonArgs']['model'] = f'str:{model_name}'
