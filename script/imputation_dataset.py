@@ -72,6 +72,7 @@ if __name__ == '__main__':
         model_path = os.path.join(IMPUTE_DIR, model_name)
         for i, date in enumerate(os.listdir(model_path)):
             model_args_path = os.path.join(model_path, CHECKPOINTS_fILE_NAME)
+            common_args_define(config)
             config['CommonArgs']['model_save_path'] = f'str:{model_args_path}'
             config['CommonArgs']['model'] = f'str:{model_name}'
             config['CommonArgs']['dataset_file_name'] = f'str:{DATASETS[i][0]}'
